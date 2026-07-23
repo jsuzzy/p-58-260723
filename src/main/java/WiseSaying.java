@@ -1,5 +1,3 @@
-package com.back;
-
 public class WiseSaying {
     private int id;
     private String saying;
