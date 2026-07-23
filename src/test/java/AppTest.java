@@ -45,6 +45,21 @@ public class AppTest {
 
     }
 
+    @Test
+    @DisplayName("등록마다 명언 번호 증가")
+    void t4() {
 
+        String out = AppTestRunner.run("""
+                등록
+                aaa
+                bbb
+                등록
+                ccc
+                ddd
+                """);
+
+        assertThat(out).contains("2번 명언이 등록되었습니다.");
+
+    }
 
 }
