@@ -31,4 +31,20 @@ public class AppTest {
 
     }
 
+    @Test
+    @DisplayName("등록 시 명언 번호 노출")
+    void t3() {
+
+        String out = AppTestRunner.run("""
+                등록
+                aaa
+                bbb
+                """);
+
+        assertThat(out).contains("1번 명언이 등록되었습니다.");
+
+    }
+
+
+
 }

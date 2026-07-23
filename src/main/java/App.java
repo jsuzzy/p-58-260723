@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class App {
     private Scanner sc;
+    private int lastId = 0;
 
     public App(Scanner sc){
         this.sc = sc;
@@ -9,19 +10,20 @@ public class App {
 
     public void run(){
         System.out.println("== 명언 앱 ==");
+        System.out.print("명령) ");
+        String cmd = sc.nextLine();
 
-        while (true) {
-            System.out.print("명령) ");
-            String cmd = sc.nextLine();
-
-            if (cmd.equals("등록")) {
+        switch (cmd) {
+            case "등록" -> {
                 System.out.print("명언 : ");
                 String saying = sc.nextLine();
                 System.out.print("작가 : ");
                 String author = sc.nextLine();
-
-            } else if(cmd.equals("종료")) {
-                break;
+                ++lastId;
+                System.out.printf("%d번 명언이 등록되었습니다.",lastId);
+            }
+            case "종료" -> {
+                return;
             }
         }
     }
