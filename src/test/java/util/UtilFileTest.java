@@ -75,4 +75,22 @@ public class UtilFileTest {
         Util.file.delete(filePath);
 
     }
+
+    @Test
+    @DisplayName("파일 생성 - 경로에 폴더가 없는 경우")
+    void t4() {
+
+        // given
+        String filePath = "temp/temp/test.txt";
+
+        // when
+        Util.file.touch(filePath); // 파일 생성
+
+        // then
+        boolean rst = Util.file.exists(filePath);
+        assertThat(rst).isTrue();
+
+        // 테스트가 끝나면 파일 삭제
+        Util.file.delete(filePath);
+    }
 }
