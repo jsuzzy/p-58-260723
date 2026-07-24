@@ -15,7 +15,7 @@ public class AppContext {
     public static WiseSayingService wiseSayingService;
     public static WiseSayingRepository wiseSayingRepository;
 
-    //데스트용 scanner
+    //테스트용 scanner
     public static void init(Scanner _sc) {
         AppContext.sc = _sc;
         AppContext.wiseSayingRepository = new WiseSayingRepository();

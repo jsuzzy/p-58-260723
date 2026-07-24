@@ -3,6 +3,7 @@ package com.back.domain.wiseSaying.controller;
 import com.back.domain.wiseSaying.entity.WiseSaying;
 import com.back.domain.wiseSaying.service.WiseSayingService;
 import com.back.global.AppContext;
+import com.back.global.Rq;
 
 import java.util.List;
 import java.util.Scanner;
@@ -41,4 +42,14 @@ public class WiseSayingController {
                         wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getSaying()));
 
     }
+
+    public void actionDelete(Rq rq) {
+
+        int id = rq.getParamAsInt("id", -1);
+        boolean rst = wiseSayingService.delete(id);
+
+        System.out.println("%d번 명언이 삭제되었습니다.".formatted(id));
+
+    }
+
 }
