@@ -37,21 +37,14 @@ public class WiseSayingRepository {
     }
 
     public PageDto findByContentContainingIdDesc(String keyword, int pageSize, int page) {
-        //페이징 처리된 결과 + 페이징 메타정보
-       //현재 페이지 번호 + 페이지 사이즈 + 전체 페이지 개수 + 시작 페이지 번호 + 마지막 페이지 번호
 
-        //명언 목록 + 페이지 번호 + 전체 페이지 개수 => 새로운 클래스
         List<WiseSaying> result = wiseSayings
                 .reversed()
                 .stream()
                 .filter(w -> w.getContent().contains(keyword))
-                .skip((page - 1) * pageSize)
-                .limit(pageSize)
                 .toList();
 
-        int totalItems = wiseSayings.size();
-
-        return new PageDto(page, pageSize, totalItems, result);
+        return pageOf(result, page, pageSize);
     }
 
     public PageDto findByAuthorContainingIdDesc(String keyword, int pageSize, int page) {
@@ -59,14 +52,23 @@ public class WiseSayingRepository {
                 .reversed()
                 .stream()
                 .filter(w -> w.getAuthor().contains(keyword))
-                .skip((page - 1) * pageSize)
+                .toList();
+
+        return pageOf(result, page, pageSize);
+    }
+
+    private PageDto pageOf(List<WiseSaying> filteredContent, int page, int pageSize) {
+
+        List<WiseSaying> content = filteredContent.stream()
+                .skip((page-1) * pageSize)
                 .limit(pageSize)
                 .toList();
 
-        int totalItems = wiseSayings.size();
+        int totalItems = filteredContent.size();
 
-        return new PageDto(page, pageSize, totalItems, result);
+        return new PageDto(page, pageSize, totalItems, content);
     }
+
 
 
 }
