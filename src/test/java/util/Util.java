@@ -1,10 +1,8 @@
 package util;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 
 public class Util {
 
@@ -51,8 +49,38 @@ public class Util {
         public static boolean exists(String filePath) {
             return Files.exists(getPath(filePath));
         }
+
+        public static String get(String filePath, String defaultValue) {
+            try {
+                return Files.readString(getPath(filePath));
+            } catch (IOException e) {
+                return defaultValue;
+            }
+        }
+
+        private static class FileDeleteVisitor extends SimpleFileVisitor<Path> {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                Files.delete(dir);
+                return FileVisitResult.CONTINUE;
+            }
+        }
+
+
+        public static boolean delete(String filePath) {
+            try {
+                Files.walkFileTree(getPath(filePath), new FileDeleteVisitor());
+                return true;
+            } catch (IOException e) {
+                return false;
+            }
+        }
     }
-
-
 
 }
