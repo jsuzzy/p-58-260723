@@ -1,11 +1,11 @@
 package com.back.domain.wiseSaying.controller;
 
+import com.back.domain.wiseSaying.dto.PageDto;
 import com.back.domain.wiseSaying.entity.WiseSaying;
 import com.back.domain.wiseSaying.service.WiseSayingService;
 import com.back.global.AppContext;
 import com.back.global.Rq;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class WiseSayingController {
@@ -36,12 +36,14 @@ public class WiseSayingController {
         int pageSize = rq.getParamAsInt("pageSize", 5);
         int page = rq.getParamAsInt("page", 1);
 
+
+
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
 
-        List<WiseSaying> wiseSayings = wiseSayingService.findListDesc(keywordType, keyword, pageSize, page);
+        PageDto pageDto = wiseSayingService.findListDesc(keywordType, keyword, pageSize, page);
 
-        wiseSayings
+        pageDto.getContent()
                 .stream()
                 .forEach(wiseSaying -> System.out.printf("%d / %s / %s%n",
                         wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getContent()));

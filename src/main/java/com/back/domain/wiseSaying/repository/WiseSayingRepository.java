@@ -1,5 +1,6 @@
 package com.back.domain.wiseSaying.repository;
 
+import com.back.domain.wiseSaying.dto.PageDto;
 import com.back.domain.wiseSaying.entity.WiseSaying;
 
 import java.util.ArrayList;
@@ -35,23 +36,37 @@ public class WiseSayingRepository {
                 .orElse(null);
     }
 
-    public List<WiseSaying> findByContentContainingIdDesc(String keyword, int pageSize, int page) {
-        return wiseSayings
+    public PageDto findByContentContainingIdDesc(String keyword, int pageSize, int page) {
+        //페이징 처리된 결과 + 페이징 메타정보
+       //현재 페이지 번호 + 페이지 사이즈 + 전체 페이지 개수 + 시작 페이지 번호 + 마지막 페이지 번호
+
+        //명언 목록 + 페이지 번호 + 전체 페이지 개수 => 새로운 클래스
+        List<WiseSaying> result = wiseSayings
                 .reversed()
                 .stream()
                 .filter(w -> w.getContent().contains(keyword))
                 .skip((page - 1) * pageSize)
                 .limit(pageSize)
                 .toList();
+
+        int totalItems = wiseSayings.size();
+
+        return new PageDto(page, pageSize, totalItems, result);
     }
 
-    public List<WiseSaying> findByAuthorContainingIdDesc(String keyword, int pageSize, int page) {
-        return wiseSayings
+    public PageDto findByAuthorContainingIdDesc(String keyword, int pageSize, int page) {
+        List<WiseSaying> result = wiseSayings
                 .reversed()
                 .stream()
                 .filter(w -> w.getAuthor().contains(keyword))
                 .skip((page - 1) * pageSize)
                 .limit(pageSize)
                 .toList();
+
+        int totalItems = wiseSayings.size();
+
+        return new PageDto(page, pageSize, totalItems, result);
     }
+
+
 }
