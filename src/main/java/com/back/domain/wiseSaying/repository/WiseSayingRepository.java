@@ -35,20 +35,22 @@ public class WiseSayingRepository {
                 .orElse(null);
     }
 
-    public List<WiseSaying> findByContentContainingIdDesc(String keyword, int pageSize) {
+    public List<WiseSaying> findByContentContainingIdDesc(String keyword, int pageSize, int page) {
         return wiseSayings
                 .reversed()
                 .stream()
                 .filter(w -> w.getContent().contains(keyword))
+                .skip((page - 1) * pageSize)
                 .limit(pageSize)
                 .toList();
     }
 
-    public List<WiseSaying> findByAuthorContainingIdDesc(String keyword, int pageSize) {
+    public List<WiseSaying> findByAuthorContainingIdDesc(String keyword, int pageSize, int page) {
         return wiseSayings
                 .reversed()
                 .stream()
                 .filter(w -> w.getAuthor().contains(keyword))
+                .skip((page - 1) * pageSize)
                 .limit(pageSize)
                 .toList();
     }
