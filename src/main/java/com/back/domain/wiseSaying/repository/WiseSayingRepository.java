@@ -11,7 +11,7 @@ public class WiseSayingRepository {
     private int lastId = 0;
 
     public WiseSaying save(WiseSaying wiseSaying) {
-        if(wiseSaying.isNew()) {
+        if (wiseSaying.isNew()) {
             wiseSaying.setId(++lastId);
             wiseSayings.add(wiseSaying);
         }
@@ -33,5 +33,23 @@ public class WiseSayingRepository {
                 .filter(wiseSaying -> wiseSaying.getId() == id)
                 .findFirst()
                 .orElse(null);
+    }
+
+    public List<WiseSaying> findByContentContainingIdDesc(String keyword, int pageSize) {
+        return wiseSayings
+                .reversed()
+                .stream()
+                .filter(w -> w.getContent().contains(keyword))
+                .limit(pageSize)
+                .toList();
+    }
+
+    public List<WiseSaying> findByAuthorContainingIdDesc(String keyword, int pageSize) {
+        return wiseSayings
+                .reversed()
+                .stream()
+                .filter(w -> w.getAuthor().contains(keyword))
+                .limit(pageSize)
+                .toList();
     }
 }

@@ -33,14 +33,14 @@ public class WiseSayingController {
 
         String keywordType = rq.getParam("keywordType", "");
         String keyword = rq.getParam("keyword", "");
+        int pageSize = rq.getParamAsInt("pageSize", 5);
 
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
 
-        List<WiseSaying> wiseSayings = wiseSayingService.findListDesc(keywordType, keyword);
+        List<WiseSaying> wiseSayings = wiseSayingService.findListDesc(keywordType, keyword, pageSize);
 
         wiseSayings
-                .reversed()
                 .stream()
                 .forEach(wiseSaying -> System.out.printf("%d / %s / %s%n",
                         wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getContent()));

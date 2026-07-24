@@ -21,17 +21,11 @@ public class WiseSayingService {
         return wiseSaying;
     }
 
-    public List<WiseSaying> findListDesc(String keywordType, String keyword) {
-        List<WiseSaying> list =  wiseSayingRepository.findListDesc();
-
+    public List<WiseSaying> findListDesc(String keywordType, String keyword, int pageSize) {
         if (keywordType.equals("content")) {
-            return list.stream()
-                    .filter(w -> w.getContent().contains(keyword))
-                    .toList();
+            return wiseSayingRepository.findByContentContainingIdDesc(keyword, pageSize);
         } else {
-            return list.stream()
-                    .filter(w -> w.getAuthor().contains(keyword))
-                    .toList();
+            return wiseSayingRepository.findByAuthorContainingIdDesc(keyword, pageSize);
         }
     }
 
